@@ -9,30 +9,21 @@ errorfile and jumping to the first Checkstyle error.
 
 Dependencies
 ------------
-In addition to the scripts that come bundled with the plugin, there are
-several external dependencies, including:
-
-    Checkstyle <http://checkstyle.sourceforge.net/> - this script was
-        written against version 2.4.
-    xsltproc from libxslt <http://xmlsoft.org/XSLT/>
-    libxml2 <http://xmlsoft.org/> (used by libxslt)
-    mktemp <http://www.mktemp.org/>
+The plugin depends on Java <http://java.sun.com/> and Checkstyle
+<http://checkstyle.sourceforge.net/>.  It was written using Checkstyle
+version 2.4.
 
 Installation
 ------------
-The two scripts (checkstyle and vimcheckstyle) should be copied to
-someplace in the PATH.  By default, the java_checkstyle.vim will look for
-vimcheckstyle in /usr/local/bin.  The XSLT stylesheet
-(checkstyle-quickfix.xsl) should be copied to /usr/local/lib; if you
-prefer, you may put it in a different location, but you will also need to
-edit the vimcheckstyle script to reflect that location.  If you have
-Checkstyle installed in a location other than /opt/checkstyle, you will
-need to edit the checkstyle script to reflect that location.  On UNIX, the
-java_checkstyle.vim script should be copied to the ~/.vim/ftplugin
-directory (see :help ftplugins for more information).  If you have not
+The java_checkstyle.vim script should be copied to the right directory.
+On UNIX, this is ~/.vim/ftplugin; see ':help ftplugins' and ':help
+add-global-plugin' for more information.  You will likely need to specify
+the location of the checkstyle-all jar file, which can be done either by
+editing the script itself or by adding the setting to your vimrc file (see
+the section in the script called "Configuration").  If you have not
 already done so, you will also need to turn on filetype plugin usage in
 Vim using the following command (you will probably want to put this in
-your .vimrc):
+your vimrc file):
 
     :filetype plugin on
 
@@ -46,13 +37,12 @@ following command:
 
 In order to use the command, simply edit a Java file and then execute
 :Checkstyle.  You should jump to the first Checkstyle error.  You can move
-through the remain errors using the standard QuickFix commands (see :help
-quickfix for more information).
+through the remain errors using the standard QuickFix commands (see ':help
+quickfix' for more information).
 
 Platforms
 ---------
-This script has been developed on Linux, but through Cygwin
-<http://www.cygwin.com/>, all the required tools should be available on
-Windows.  I would appreciate any feedback that would enhance the script's
-ability to be used on these and other systems.
+This script has been developed on Linux, but it should work on any
+platform with Vim and Java.  I would appreciate any feedback regarding
+portability.
 
