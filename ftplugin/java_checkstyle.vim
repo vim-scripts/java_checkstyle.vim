@@ -25,6 +25,9 @@
 "
 " Thanks to Minto Tsai for updating to Checkstyle 3.0.
 "
+" Thanks to David McReynolds for a fix to correct handling of spaces in the
+" Checkstyle command-line arguments.
+"
 " Also, quite obviously, many thanks are due to the Checkstyle developers, as
 " well as Bram Moolenaar and the other developers of Vim.
 "
@@ -81,10 +84,10 @@ function! s:RunCheckstyle()
 
     " Setup and invoke the command
     let filename = expand("%:p")
-    let checkstyle_cmd = 'java -cp ' . g:Checkstyle_Classpath
+    let checkstyle_cmd = 'java -cp "' . g:Checkstyle_Classpath . '"'
     let checkstyle_cmd = checkstyle_cmd . ' com.puppycrawl.tools.checkstyle.Main'
-    let checkstyle_cmd = checkstyle_cmd . ' -c ' . g:Checkstyle_XML
-    let checkstyle_cmd = checkstyle_cmd . ' ' . filename
+    let checkstyle_cmd = checkstyle_cmd . ' -c "' . g:Checkstyle_XML . '"'
+    let checkstyle_cmd = checkstyle_cmd . ' "' . filename . '"'
 
     let cmd_output = system(checkstyle_cmd)
 
