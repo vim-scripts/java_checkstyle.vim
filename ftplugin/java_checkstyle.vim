@@ -1,7 +1,7 @@
 " File: java_checkstyle.vim
 " Author: Xandy Johnson
-" Version: 0.2
-" Last Modified: October 22, 2002
+" Version: 0.3
+" Last Modified: October 24, 2002
 "
 " Credits
 " -------
@@ -15,10 +15,13 @@
 " of Checkstyle and Vim (see
 " <http://mugca.its.monash.edu.au/~djkea2/vim/compiler/checkstyle.vim>).
 " Using his errorformat allowed the use of Checkstyle directly, eliminating
-" several dependencies.  I also thank Salmon Halim, who sent me Doug Kearns'
-" compiler plugin.  Both Doug and Salmon helpfully explained things for me and
+" several dependencies.  I also thank Salman Halim, who sent me Doug Kearns'
+" compiler plugin.  Both Doug and Salman helpfully explained things for me and
 " graciously allowed me to use their work.
 " 
+" Thanks go to Thomas Regner for supplying a patch to support configuration of
+" the Checkstyle properties.
+"
 " Also, quite obviously, many thanks are due to the Checkstyle developers, as
 " well as Bram Moolenaar and the other developers of Vim.
 "
@@ -40,6 +43,16 @@
 " file):
 "
 "       :let Checkstyle_Jar_Path = 'C:\checkstyle-2.4\checkstyle-all-2.4.jar'
+"
+" The 'Checkstyle_Props' variable is used to locate the Checkstyle
+" configuration properties file.  It does not have a default and you do not
+" need to specify a value.  If you do not provide a value, none will be
+" supplied to Checkstyle, which causes Checkstyle simply to use all the
+" default values.  If you would like to use a specific configuration
+" properties file, you can specify one using something like the following let
+" command (which you may want to put in your vimrc file):
+"
+"       :let Checkstyle_Props = '/home/xandy/.checkstyle.properties'
 
 if exists("loaded_java_checkstyle") || &cp
     finish
@@ -59,7 +72,11 @@ function! s:RunCheckstyle()
 
     " Setup and invoke the command
     let filename = expand("%:p")
-    let checkstyle_cmd = 'java -cp ' . g:Checkstyle_Jar_Path . ' com.puppycrawl.tools.checkstyle.Main -f plain ' . filename
+    let checkstyle_cmd = 'java -cp ' . g:Checkstyle_Jar_Path . ' com.puppycrawl.tools.checkstyle.Main -f plain '
+    if exists("g:Checkstyle_Props")
+        let checkstyle_cmd = checkstyle_cmd . '-p ' . g:Checkstyle_Props 
+    endif
+    let checkstyle_cmd = checkstyle_cmd . ' ' . filename
     let cmd_output = system(checkstyle_cmd)
 
     " Redirect the output to a temp file
@@ -79,8 +96,13 @@ function! s:RunCheckstyle()
     " restore the previously existing error format
     let &errorformat = old_errorformat
 
-    " Jump to the first error
-    cc
+    " Show the first error message error if there is one (making sure not to
+    " cause a Vim error if there are no Checkstyle errors).
+    let v:errmsg = ""
+    silent! verbose cc
+    if v:errmsg == ""
+	cc
+    endif
 
     call delete(tmpfile)
 endfunction
