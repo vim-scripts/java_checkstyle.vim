@@ -1,0 +1,8 @@
+#!/bin/sh
+
+TMPFILE=`mktemp /tmp/checkstyle.XXXXXX`
+
+checkstyle -f xml -o $TMPFILE ${@+"$@"}
+xsltproc /usr/local/lib/checkstyle-quickfix.xsl $TMPFILE
+
+rm $TMPFILE

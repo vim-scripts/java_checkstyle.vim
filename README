@@ -1,0 +1,9 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=448
+
+The java_checkstyle.vim filetype plugin script integrates Checkstyle
+http://checkstyle.sourceforge.net/ with Vim.  "Checkstyle is a
+development tool to help programmers write Java code that adheres to a
+coding standard" (from the Checkstyle home page).  This plugin allows a
+user to run Checkstyle on the current Java file, putting the results in an
+errorfile and jumping to the first Checkstyle error.
+

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+CHECKSTYLE_HOME=/opt/checkstyle
+
+java  -jar $CHECKSTYLE_HOME/checkstyle-all-2.4.jar ${@+"$@"}
